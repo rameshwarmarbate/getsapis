@@ -370,10 +370,9 @@ async function downloadInvoice(req, res) {
     if (country) {
       contrycode.push(country);
     }
-    let subtotal = formatNumber(quantity * unit_price);
+    const subtotal = formatNumber(quantity * unit_price);
     const gst = subtotal * 0.18;
     const total = formatNumber(subtotal);
-    subtotal = formatNumber(subtotal - gst)
     const words = numberToWords.toWords(total);
     const date = moment(order.created_at || new Date()).format("DD/MM/YYYY")
     const logo = base64_encode(
@@ -396,7 +395,7 @@ async function downloadInvoice(req, res) {
         description: device.title,
         quantity: quantity,
         unitPrice: formatNumber(unit_price),
-        total: subtotal,
+        total: formatNumber(subtotal - gst),
       },
       subtotal,
       gst: formatNumber(gst),
