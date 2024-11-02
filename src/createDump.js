@@ -1,0 +1,102 @@
+const devices = [
+  {
+    title: "16A Smart Plug",
+    description: `The 16A smart plug allows remote control, provides protection, and gets alerts of high-power
+                    devices through a smartphone app or voice commands. With Wi-Fi connectivity, it integrates
+                    seamlessly into smart home ecosystems for convenient and energy-efficient operation.`,
+    feature1: "WiFi Connectivity",
+    feature2: "Energy Monitoring (up to 3600W)",
+    feature3: "16A Capacity",
+    feature4: "Voice Control",
+    feature5: "Smart Scheduling",
+    icon1_desc: "Control",
+    icon2_desc: "Alerts",
+    icon3_desc: "Protection",
+    is_smart_device: true,
+    image1: "/image/16a_1.jpg",
+    image2: "/images/16a_2.jpg",
+    image3: "/images/16a_3.jpg",
+    icon1: "/icons/voice-command.png",
+    icon2: "/icons/high-voltage.png",
+    icon3: "/icons/protection.png",
+    image_transparent: "/image/16a_tranparent.png",
+  },
+  {
+    title: "10A Smart Plug",
+    description:
+      "The 10A smart plug offers remote control and scheduling for connected devices via smartphone or voice commands. With a 10-ampere capacity, it's compact, user-friendly, and integrates seamlessly into smart home ecosystems. Ideal for the efficient and automated management of household appliances.",
+    feature1: "WiFi Connectivity",
+    feature2: "10A Capacity",
+    feature3: "Voice Control",
+    feature4: "Smart Scheduling",
+    feature5: "Remote Control",
+    icon1_desc: "Control",
+    icon2_desc: "Timer",
+    icon3_desc: "Schedule",
+    is_smart_device: true,
+    image1: "/image/10a_1.jpg",
+    image2: "/images/10a_2.jpg",
+    image3: "/images/10a_3.jpg",
+    icon1: "/icons/voice-command.png",
+    icon2: "/icons/timer.png",
+    icon3: "/icons/calendar.png",
+    image_transparent: "/image/10a_transparent.png",
+  },
+  {
+    title: "Smart Motion Sensor Light",
+    description:
+      "Illuminate your home effortlessly with our motion sensor LED light, perfect for various spaces like bedrooms, hallways, kitchens, and closets. Easy to install with adhesive pads and a magnet, it automatically turns off after 15-30 seconds of inactivity, ensuring energy efficiency.",
+    feature1: "60 Lumens, 6500k - More Brighter",
+    feature2: "400mAh battery capacity",
+    feature3: "USB Charging",
+    feature4: "15-30 seconds Auto Off Timer",
+    feature5: "Wide-Angle Motion Sensitivity",
+    icon1_desc: "High Lumens",
+    icon2_desc: "Rechargeable",
+    icon3_desc: "Motion Detection",
+    is_smart_device: true,
+    image1: "/image/motion_sensor1.jpg",
+    image2: "/images/motion_sensor2.jpg",
+    image3: null,
+    icon1: "/icons/lumens.png",
+    icon2: "/icons/recharge.png",
+    icon3: "/icons/child.png",
+    image_transparent: "/image/motion sensor_transparent.png",
+  },
+  {
+    title: "Electric Hot Water Bag",
+    description:
+      "Experience soothing relief with the Electric Hot Water Bag, designed to provide comfort and ease for various aches and pains. Whether you're dealing with shoulder, back, or full-body discomfort, or need a hand warmer during cold days, this versatile hot bag delivers effective heat therapy right where you need it.",
+    feature1: "Easy to carry",
+    feature2: "Flexible Warm Personal Care",
+    feature3: "8-12 Minute Charging",
+    feature4: "Eliminate Muscle Fatigue",
+    feature5: "Improve Blood Circulation",
+    icon1_desc: null,
+    icon2_desc: null,
+    icon3_desc: null,
+    is_smart_device: false,
+    image1: null,
+    image2: null,
+    image3: null,
+    icon1: null,
+    icon2: null,
+    icon3: null,
+    image_transparent: null,
+  },
+];
+
+const users = [
+  {
+    first_name: "Rameshwar",
+    last_name: "Marbate",
+    email: "rameshwarmarbate@gmail.com",
+    mobile: "9834572976",
+    password: "12345678",
+  },
+];
+
+module.exports = {
+  devices,
+  users
+};
