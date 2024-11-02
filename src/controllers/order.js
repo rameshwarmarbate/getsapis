@@ -370,11 +370,11 @@ async function downloadInvoice(req, res) {
     if (country) {
       contrycode.push(country);
     }
-    const subtotal = formatNumber(quantity * unit_price);
-    const gst = subtotal * 0.18;
-    const total = formatNumber(subtotal);
-    const words = numberToWords.toWords(total);
-    const date = moment(order.created_at || new Date()).format("DD/MM/YYYY")
+    const totalWithGST = quantity * unit_price; 
+    const subtotal = totalWithGST / 1.18; 
+    const gst = totalWithGST - subtotal; 
+    const words = numberToWords.toWords(totalWithGST); // Convert total to words
+    const date = moment(order.created_at || new Date()).format("DD/MM/YYYY");
     const logo = base64_encode(
       path.join(__dirname, '../../invoice/gets.svg')
     );
@@ -395,11 +395,11 @@ async function downloadInvoice(req, res) {
         description: device.title,
         quantity: quantity,
         unitPrice: formatNumber(unit_price),
-        total,
+        total: formatNumber(totalWithGST),
       },
-      subtotal: formatNumber(subtotal - gst),
+      subtotal: formatNumber(subtotal),
       gst: formatNumber(gst),
-      total: total,
+      total: formatNumber(totalWithGST),
       totalInWords: toUpper(words),
     };
     const htmlFilePath = path.join(__dirname, '../../invoice/index.html');
