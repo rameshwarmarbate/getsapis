@@ -94,6 +94,13 @@ const users = [
     mobile: "9834572976",
     password: "12345678",
   },
+  {
+    first_name: "Aman",
+    last_name: "Umredkar",
+    email: "umredkaraman3@gmail.com",
+    mobile: "7875874816",
+    password: "12345678",
+  },
 ];
 
 module.exports = {

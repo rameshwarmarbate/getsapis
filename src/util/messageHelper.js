@@ -5,10 +5,10 @@
 * LICENSE file in the root directory of this source tree.
 */
 
-var axios = require('axios');
+const axios = require('axios');
 
 function sendMessage(data) {
-  var config = {
+  const config = {
     method: 'post',
     url: `https://graph.facebook.com/${process.env.VERSION}/${process.env.PHONE_NUMBER_ID}/messages`,
     headers: {
@@ -29,64 +29,50 @@ function getTextMessageInput(recipient, text) {
     "to": recipient,
     "type": "text",
     "text": {
-        "body": text
+      "body": text
     }
   });
 }
 
-function getTemplatedMessageInput(recipient, movie, seats) {
+function getMediaMessageInput(recipient, mediaId) {
   return JSON.stringify({
     "messaging_product": "whatsapp",
     "to": recipient,
-    "type": "template",
-    "template": {
-      "name": "sample_movie_ticket_confirmation",
-      "language": {
-        "code": "en_US"
-      },
-      "components": [
-        {
-          "type": "header",
-          "parameters": [
-            {
-              "type": "image",
-              "image": {
-                "link": movie.thumbnail
-              }
-            }
-          ]
-        },
-        {
-          "type": "body",
-          "parameters": [
-            {
-              "type": "text",
-              "text": movie.title
-            },
-            {
-              "type": "date_time",
-              "date_time": {
-                "fallback_value": movie.time
-              }
-            },
-            {
-              "type": "text",
-              "text": movie.venue
-            },
-            {
-              "type": "text",
-              "text": seats
-            }
-          ]
-        }
-      ]
+    "type": "document",
+    "document": {
+      "id": mediaId
     }
+  });
+}
+
+async function uploadPDFToWhatsApp(pdfBase64) {
+  try {
+    const uploadResponse = await axios.post(
+      `https://graph.facebook.com/${process.env.VERSION}/${process.env.PHONE_NUMBER_ID}/media`,
+      {
+        type: 'document',
+        document: {
+          caption: 'Invoice',
+          file: pdfBase64
+        }
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    return uploadResponse.data.id;
+  } catch (error) {
+    console.error('Error uploading PDF to WhatsApp:', error);
+    throw new Error('Failed to upload PDF to WhatsApp.');
   }
-  );
 }
 
 module.exports = {
   sendMessage: sendMessage,
   getTextMessageInput: getTextMessageInput,
-  getTemplatedMessageInput: getTemplatedMessageInput
+  getMediaMessageInput: getMediaMessageInput,
+  uploadPDFToWhatsApp: uploadPDFToWhatsApp
 };
