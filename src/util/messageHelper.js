@@ -42,12 +42,45 @@ function getMediaMessageInput({ recipient, mediaId, filename, amount, address })
   return {
     "messaging_product": "whatsapp",
     "to": 91 + recipient,
-    "type": "document",
-    "document": {
-      "id": mediaId,
-      filename,
-      caption: `Thank you for your purchase of ₹${amount} from ${address}. Your invoice PDF is attached.`
+    "type": "template",
+    "template": {
+      "name": "whatsapp_invoice",
+      "language": {
+        "code": "en_US"
+      },
+      "components": [
+        {
+          "type": "header",
+          "parameters": [
+            {
+              "type": "document",
+              "document": {
+                "id": mediaId,
+                "filename": filename
+              }
+            }
+          ]
+        },
+        {
+          "type": "body",
+          "parameters": [
+            {
+              "type": "text",
+              "text": `₹${amount}`
+            },
+            {
+              "type": "text",
+              "text": address
+            },
+            {
+              "type": "text",
+              "text": filename
+            }
+          ]
+        }
+      ]
     }
+
   };
 }
 
@@ -72,7 +105,6 @@ async function uploadPDFToWhatsApp(pdfBuffer) {
     return uploadResponse.data.id;
   } catch (error) {
     console.error('Error uploading PDF to WhatsApp:', error);
-    throw new Error('Failed to upload PDF to WhatsApp.');
   }
 }
 

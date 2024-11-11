@@ -108,7 +108,7 @@ async function addOrder(req, res) {
                 recipient: mobile, mediaId, filename, amount: invoiceData.total,
                 address: invoiceData.customer.address,
               });
-              await sendMessage(messageData);
+             const data = await sendMessage(messageData);
 
               return res.json({ pdfBase64, order });
             } catch (error) {
