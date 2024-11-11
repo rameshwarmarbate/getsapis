@@ -99,10 +99,15 @@ async function addOrder(req, res) {
             } = orderInfo.customer || {};
             try {
               // Step 1: Upload PDF to WhatsApp
-              const mediaId = await uploadPDFToWhatsApp(pdfBase64);
+              const mediaId = await uploadPDFToWhatsApp(buffer);
 
               // Step 2: Send media message with the uploaded PDF
-              const messageData = getMediaMessageInput(mobile, mediaId);
+              const filename = `Invoice-${orderInfo?.order_no || ""}.pdf`
+
+              const messageData = getMediaMessageInput({
+                recipient: mobile, mediaId, filename, amount: invoiceData.total,
+                address: invoiceData.customer.address,
+              });
               await sendMessage(messageData);
 
               return res.json({ pdfBase64, order });
@@ -144,6 +149,7 @@ async function getOrders(req, res) {
       ],
       limit,
       offset,
+      order: [['id', 'DESC'],]
     });
     res.json({
       totalCount: result.count,

@@ -6,23 +6,27 @@
 */
 
 const axios = require('axios');
-
+const FormData = require('form-data');
 function sendMessage(data) {
-  const config = {
-    method: 'post',
-    url: `https://graph.facebook.com/${process.env.VERSION}/${process.env.PHONE_NUMBER_ID}/messages`,
-    headers: {
-      'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
-      'Content-Type': 'application/json'
-    },
-    data: data
-  };
+  try {
+    const config = {
+      method: 'post',
+      url: `https://graph.facebook.com/${process.env.VERSION}/${process.env.PHONE_NUMBER_ID}/messages`,
+      headers: {
+        'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
+        // 'Content-Type': 'application/json'
+      },
+      data: data
+    };
 
-  return axios(config)
+    return axios(config)
+  } catch (error) {
+    console.error('Error uploading PDF to WhatsApp:', error);
+  }
 }
 
 function getTextMessageInput(recipient, text) {
-  return JSON.stringify({
+  return {
     "messaging_product": "whatsapp",
     "preview_url": false,
     "recipient_type": "individual",
@@ -31,35 +35,37 @@ function getTextMessageInput(recipient, text) {
     "text": {
       "body": text
     }
-  });
+  };
 }
 
-function getMediaMessageInput(recipient, mediaId) {
-  return JSON.stringify({
+function getMediaMessageInput({ recipient, mediaId, filename, amount, address }) {
+  return {
     "messaging_product": "whatsapp",
-    "to": recipient,
+    "to": 91 + recipient,
     "type": "document",
     "document": {
-      "id": mediaId
+      "id": mediaId,
+      filename,
+      caption: `Thank you for your purchase of ₹${amount} from ${address}. Your invoice PDF is attached.`
     }
-  });
+  };
 }
 
-async function uploadPDFToWhatsApp(pdfBase64) {
+async function uploadPDFToWhatsApp(pdfBuffer) {
   try {
+    const formData = new FormData();
+    formData.append('messaging_product', 'whatsapp');
+    formData.append('type', 'document');
+    formData.append('file', pdfBuffer, 'Invoice.pdf');
+    formData.append('caption', 'Invoice'); // Optional caption
+
     const uploadResponse = await axios.post(
       `https://graph.facebook.com/${process.env.VERSION}/${process.env.PHONE_NUMBER_ID}/media`,
-      {
-        type: 'document',
-        document: {
-          caption: 'Invoice',
-          file: pdfBase64
-        }
-      },
+      formData,
       {
         headers: {
           'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
-          'Content-Type': 'application/json'
+          ...formData.getHeaders() // Include FormData headers
         }
       }
     );
