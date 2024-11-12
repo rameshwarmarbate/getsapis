@@ -74,7 +74,7 @@ function getMediaMessageInput({ recipient, mediaId, filename, amount, address })
             },
             {
               "type": "text",
-              "text": filename
+              "text": "invoice"
             }
           ]
         }
