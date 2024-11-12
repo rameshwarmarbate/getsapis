@@ -243,8 +243,12 @@ const getInvoiceTemplateData = async (order_id) => {
     const logo = base64_encode(
       path.join(__dirname, '../../invoice/gets.svg')
     );
+    const signature = base64_encode(
+      path.join(__dirname, '../../invoice/signature.svg')
+    );
     const invoiceData = {
       logo,
+      signature,
       orderNo: order_no,
       date,
       customer: {
