@@ -104,11 +104,8 @@ async function addOrder(req, res) {
               // Step 2: Send media message with the uploaded PDF
               const filename = `Invoice-${orderInfo?.order_no || ""}.pdf`
 
-              const messageData = getMediaMessageInput({
-                recipient: mobile, mediaId, filename, amount: invoiceData.total,
-                address: invoiceData.customer.address,
-              });
-             const data = await sendMessage(messageData);
+              const messageData = getMediaMessageInput({ recipient: mobile, mediaId, filename, amount: invoiceData.total });
+              const data = await sendMessage(messageData);
 
               return res.json({ pdfBase64, order });
             } catch (error) {

@@ -31,7 +31,7 @@ function getTextMessageInput(recipient, text) {
   };
 }
 
-function getMediaMessageInput({ recipient, mediaId, filename, amount, address }) {
+function getMediaMessageInput({ recipient, mediaId, filename, amount }) {
   return {
     "messaging_product": "whatsapp",
     "to": 91 + recipient,
@@ -63,7 +63,7 @@ function getMediaMessageInput({ recipient, mediaId, filename, amount, address })
             },
             {
               "type": "text",
-              "text": address
+              "text": "GETS India"
             },
             {
               "type": "text",
