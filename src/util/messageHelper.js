@@ -31,7 +31,7 @@ function getTextMessageInput(recipient, text) {
   };
 }
 
-function getMediaMessageInput({ recipient, mediaId, filename, amount }) {
+function getMediaMessageInput({ recipient, mediaId, filename, amount, customer, device }) {
   return {
     "messaging_product": "whatsapp",
     "to": 91 + recipient,
@@ -59,15 +59,23 @@ function getMediaMessageInput({ recipient, mediaId, filename, amount }) {
           "parameters": [
             {
               "type": "text",
+              "text": customer
+            },
+            {
+              "type": "text",
+              "text": device
+            },
+            {
+              "type": "text",
               "text": `₹${amount}`
             },
             {
               "type": "text",
-              "text": "GETS India"
+              "text": 'GETS - Get Excellent Tech Solutions'
             },
             {
               "type": "text",
-              "text": "invoice"
+              "text": "support@getsbh.com"
             }
           ]
         }

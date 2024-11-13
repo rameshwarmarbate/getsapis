@@ -94,18 +94,21 @@ async function addOrder(req, res) {
               return res.status(200).json({ message: buffErr.message });
             }
             const pdfBase64 = buffer.toString("base64");
+            const { customer, order_no, device } = orderInfo
             const {
               mobile,
-            } = orderInfo.customer || {};
+              first_name,
+              last_name
+            } = customer || {};
             try {
               // Step 1: Upload PDF to WhatsApp
               const mediaId = await uploadPDFToWhatsApp(buffer);
 
               // Step 2: Send media message with the uploaded PDF
-              const filename = `Invoice-${orderInfo?.order_no || ""}.pdf`
+              const filename = `Invoice-${order_no || ""}.pdf`
 
-              const messageData = getMediaMessageInput({ recipient: mobile, mediaId, filename, amount: invoiceData.total });
-              const data = await sendMessage(messageData);
+              const messageData = getMediaMessageInput({ recipient: mobile, mediaId, filename, amount: invoiceData.total, customer: `${first_name} ${last_name}`, device: device.title });
+              await sendMessage(messageData);
 
               return res.json({ pdfBase64, order });
             } catch (error) {
