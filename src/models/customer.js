@@ -1,5 +1,5 @@
-const db = require("../models/database.js");
 const { DataTypes } = require("sequelize");
+const db = require("../models/database.js");
 
 const Customer = db.define(
   "Customer",
@@ -52,6 +52,14 @@ const Customer = db.define(
     },
     gst_no: {
       type: DataTypes.STRING(15),
+      allowNull: true,
+    },
+    requested_quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    requested_device_id: {
+      type: DataTypes.BIGINT.UNSIGNED,
       allowNull: true,
     },
     created_by: {

@@ -34,6 +34,22 @@ const SalesPerson = db.define(
       type: DataTypes.STRING(100),
       allowNull: false,
     },
+    aadhar_no: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    aadhar_file_path: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    pan_no: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
+    pan_file_path: {
+      type: DataTypes.STRING(100),
+      allowNull: false,
+    },
     created_by: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: true,

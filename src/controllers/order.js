@@ -290,8 +290,103 @@ const getInvoiceTemplateData = async (order_id) => {
     return ''
   }
 }
+
+async function updateOrder(req, res) {
+  try {
+    const {
+      device_id,
+      unit_price,
+      quantity,
+      first_name,
+      last_name,
+      mobile,
+      email,
+      address,
+      pincode,
+      city,
+      district,
+      state,
+      country,
+      gst_no,
+      user_id,
+      isShare,
+      customer_id,
+      order_id
+    } = req.body;
+
+    await Customer.update({
+      first_name,
+      last_name,
+      mobile,
+      email,
+      address,
+      pincode,
+      city,
+      district,
+      state,
+      country,
+      gst_no,
+      updated_by: user_id,
+    }, { where: { id: customer_id } });
+
+
+    const order = await Order.update({
+      device_id,
+      customer_id,
+      unit_price,
+      quantity,
+      updated_by: user_id,
+    }, { where: { id: order_id } });
+
+
+    if (isShare) {
+      const { htmlFilePath, invoiceData, options, order: orderInfo } = await getInvoiceTemplateData(order_id)
+      res.render(
+        htmlFilePath,
+        invoiceData,
+        (err, HTML) => {
+          pdf.create(HTML, options).toBuffer(async (buffErr, buffer) => {
+            if (buffErr) {
+              return res.status(200).json({ message: buffErr.message });
+            }
+            const pdfBase64 = buffer.toString("base64");
+            const { customer, order_no, device } = orderInfo
+            const {
+              mobile,
+              first_name,
+              last_name
+            } = customer || {};
+            try {
+              // Step 1: Upload PDF to WhatsApp
+              const mediaId = await uploadPDFToWhatsApp(buffer);
+
+              // Step 2: Send media message with the uploaded PDF
+              const filename = `Invoice-${order_no || ""}.pdf`
+
+              const messageData = getMediaMessageInput({ recipient: mobile, mediaId, filename, amount: invoiceData.total, customer: `${first_name} ${last_name}`, device: device.title });
+              await sendMessage(messageData);
+
+              return res.json({ pdfBase64, order: { id: order_id, order_no } });
+            } catch (error) {
+              console.error('Error sending WhatsApp message:', error);
+              return res.status(500).json({ message: 'Failed to send WhatsApp message.' });
+            }
+          });
+        }
+      );
+    } else {
+      res.json({ order });
+    }
+  } catch (error) {
+    console.error("Error creating order:", error);
+    res.status(500).json({
+      message: error.message || "An error occurred while creating the order.",
+    });
+  }
+}
 module.exports = {
   addOrder,
   getOrders,
   downloadInvoice,
+  updateOrder
 };

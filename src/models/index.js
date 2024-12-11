@@ -29,7 +29,7 @@ Order.belongsTo(Device, {
   as: "device",
 });
 
-db.sync({ alter: false })
+db.sync({ alter: true })
   .then(async () => {
     console.log("Database sync successfully.");
     // const device = await db.models.Device.bulkCreate(devices);
