@@ -7,7 +7,7 @@ const Order = require("../models/order.js");
 const OrderCounter = require("../models/orderCounter.js");
 const db = require("./database.js");
 const { devices, users } = require("../createDump.js");
-
+const Warranty = require("../models/warranty.js");
 Device.hasMany(UserDevice, { foreignKey: "device_id" });
 UserDevice.belongsTo(Device, { foreignKey: "device_id" });
 Order.belongsTo(Customer, {
@@ -51,5 +51,6 @@ module.exports = {
   Customer,
   Order,
   OrderCounter,
+  Warranty,
   sequelize: db,
 };

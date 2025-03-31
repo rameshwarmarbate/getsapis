@@ -8,5 +8,5 @@ router.use(require("../routes/userDevice"));
 router.use(require("../routes/salesperson"));
 router.use(require("../routes/order"));
 router.use(require("../routes/customer"));
-
+router.use(require("../routes/warranty"));
 module.exports = router;
