@@ -85,14 +85,14 @@ Product: ${productName}
 Order ID: ${invoiceNumber}
 Warranty Validity: ${formattedStartDate} – ${formattedEndDate}
 
-🔹 Need to claim your warranty? Click here: ${process.env.APP_URL}warranty_claim.html
+🔹 Need to claim your warranty? Click here: ${process.env.WARRANTY_APP_URL}warranty_claim.html
 
 For any support, feel free to contact us.
 Enjoy your purchase, and thank you for choosing GETS!
 
 🔹 GETS Customer Support
 Mail - ${process.env.WHATSAPP_MAIL}
-Website - ${process.env.APP_URL}`;
+Website - ${process.env.WARRANTY_APP_URL}`;
 
         const message2 = `Hi *${customerName}*,
 We hope you’re enjoying your GETS ${productName}! ⭐
@@ -105,7 +105,7 @@ Once verified, we’ll process your cashback! 🚀
 Thank you for supporting GETS—we truly appreciate it! 💙
 🔹 GETS Customer Support
 Mail - ${process.env.WHATSAPP_MAIL}
-Website - ${process.env.APP_URL}`
+Website - ${process.env.WARRANTY_APP_URL}`
 
 
         await client.sendMessage(customerPhone, message);
